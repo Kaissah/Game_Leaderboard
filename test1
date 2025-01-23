@@ -1,0 +1,91 @@
+
+#include <iostream>
+using namespace std;
+
+class LeaderBoard{
+    private:
+        struct BoardNode{
+            string player_name;
+            int score;
+            struct BoardNode *next;
+        };
+        
+        BoardNode *head;
+    
+    public:
+        LeaderBoard(){
+            head = NULL;
+        }
+        ~LeaderBoard();
+        void insertNode(string name, int score);
+        void displayNode(int score[]);
+        void traverseNode();
+};
+
+
+void LeaderBoard::insertNode(string name, int score){
+    BoardNode *newNode, *nodePtr, *previousNode;
+    
+    newNode = new BoardNode;
+    newNode->player_name = name;
+    newNode->score = score;
+    newNode->next = NULL;
+    
+    if (!head){
+        head = newNode;
+        newNode->next = NULL;
+    }
+    else{
+        nodePtr = head;
+        previousNode = NULL;
+        
+        while(nodePtr != NULL && nodePtr->score > score){
+            previousNode = nodePtr;
+            nodePtr = nodePtr->next;
+        }
+        
+        if(previousNode == NULL){
+            head = newNode;
+            newNode->next = nodePtr;
+        }
+        else{
+            previousNode->next = newNode;
+            newNode->next = nodePtr;
+        }
+    }
+}
+
+void LeaderBoard::traverseNode(){
+    int score[10];
+    int counter = 0;
+    BoardNode *nodePtr;
+    if (head == NULL)
+        cout << "The list is empty!" << endl;
+    else{
+        nodePtr = head;
+        while(nodePtr){
+            score[counter] = nodePtr->score;
+            counter++;
+            nodePtr = nodePtr->next;
+        }
+    }
+}
+
+void LeaderBoard::displayNode(int score[]){
+    for(int i = 0; i < 10; i++){
+        cout << score[i] << endl;
+    }
+}
+
+int main()
+{
+    LeaderBoard board;
+    board.insertNode("Gerome", 90);
+    board.insertNode("Sara", 92);
+    board.insertNode("Hannah", 88);
+    board.insertNode("Xiao", 99);
+    board.traverseNode();
+    board.displayNode(sc);
+
+    return 0;
+}
