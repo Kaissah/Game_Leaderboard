@@ -57,7 +57,10 @@ private:
     }
 
 public:
-    Leaderboard() : head(nullptr), count(0) {}
+    Leaderboard(){
+        head = nullptr;
+        count = 0;
+    }
 
     // Add or update player
     void addPlayer(char* name, int score){
