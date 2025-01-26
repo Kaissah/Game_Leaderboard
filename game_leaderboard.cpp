@@ -1,11 +1,11 @@
 #include <iostream>
 #include <fstream>
-#include <cstring>
+#include <string>
 using namespace std;
 
 
 struct Player{
-    char name[50]; 
+    string name; 
     int score;     
     Player *next;  
 };
@@ -22,7 +22,7 @@ private:
 
         // Check if the player is already in top 10 (If the array is not empty)
         for (int i = 0; i < count; i++){
-            if (strcmp(board[i].name, newPlayer->name) == 0) {
+            if (board[i].name == newPlayer->name) {
                 board[i].score = newPlayer->score;
                 sortBoard();
                 return;
@@ -47,7 +47,7 @@ private:
         for (int i = 0; i < count - 1; i++) {
             for (int j = 0; j < count - i - 1; j++) {
                 if (board[j].score < board[j + 1].score ||
-                   (board[j].score == board[j + 1].score && strcmp(board[j].name, board[j + 1].name) > 0)) {
+                   (board[j].score == board[j + 1].score && board[j].name > board[j + 1].name)) {
                     Player temp = board[j];
                     board[j] = board[j + 1];
                     board[j + 1] = temp;
@@ -63,7 +63,7 @@ public:
     }
 
     // Add or update player
-    void addPlayer(char* name, int score){
+    void addPlayer(string name, int score){
 
         if (score < 0 || score > 100){
             cout << "Invalid score. Enter a score between 0-100.\n";  // Error handling for invalid score.
@@ -72,7 +72,7 @@ public:
 
         Player* current = head;
         while (current != nullptr){
-            if (strcmp(current->name, name) == 0){
+            if (current->name == name){
                 cout << "\n\nExisting player! Cannot have more than one entry!";  // Error handling for multiple entries
                 return;
             }
@@ -81,7 +81,7 @@ public:
 
         // If list is empty or no matching player is found; add new player to the linked list.
         Player *newPlayer = new Player;
-        strcpy(newPlayer->name, name);
+        newPlayer->name = name;
         newPlayer->score = score;
         newPlayer->next = head;
         head = newPlayer;
@@ -90,7 +90,7 @@ public:
         cout << "\n\nPlayer record added.";
     }
 
-    void updatePlayer(char* name, int score){
+    void updatePlayer(string name, int score){
 
 
         if (!head)
@@ -107,7 +107,7 @@ public:
             bool found = 0;
             Player *current = head;
             while (current != nullptr){
-                if (strcmp(current->name, name) == 0){
+                if (current->name == name){
                     found = 1;
                     cout << "\nUpdating score for player: " << name << "\n";
                     current->score = score;
@@ -117,7 +117,7 @@ public:
                 current = current->next;
             }
 
-             if (found == 0)
+            if (found == 0)
             cout << "\n\nNo matching player found.";
         }
     }
@@ -157,7 +157,7 @@ public:
 
 int main(){
     Leaderboard leaderboard;
-    char name[50];
+    string name;
     int score, choice;
 
     do{
@@ -177,16 +177,18 @@ int main(){
         switch (choice) {
         case 1:
             cout << "\nEnter player name: ";
-            cin.getline(name, 50);
+            getline(cin, name);
             cout << "Enter player score: ";
             cin >> score;
+            cin.ignore();
             leaderboard.addPlayer(name, score);
             break;
         case 2: 
             cout << "\nEnter player name: ";
-            cin.getline(name, 50);
+            getline(cin, name);
             cout << "Enter player score: ";
             cin >> score;
+            cin.ignore();
             leaderboard.updatePlayer(name, score);
             break;
         case 3:
