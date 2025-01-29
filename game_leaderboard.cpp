@@ -201,6 +201,7 @@ int main(){
         case 2: 
             cout << "\nEnter player name: ";
             getline(cin, name);
+	    cout << "Enter player score: ";
             while(!(cin>>score)){ 
                 cin >> score;
                 cin.clear();
