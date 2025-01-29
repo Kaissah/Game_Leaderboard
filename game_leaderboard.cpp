@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -55,6 +56,7 @@ private:
             }
         }
     }
+
 
 public:
     Leaderboard(){
@@ -153,6 +155,57 @@ public:
         file.close();
         cout << "\nLeaderboard saved to " << filename << "\n";
     }
+
+    // Quiz Mini-game
+
+    int playQuizGame(){
+        string questions[4] = {"1. What year was C++ created?:",
+                            "2. Who invented C++?:",
+                            "3. What is the predecessor of C++?:",
+                            "4. Is the Earth flat?:"};
+        
+        string choices[4][4] = {{"A. 1969", "B. 1975", "C. 1985", "D. 1989"},
+                            {"A. Guido van Rossum", "B. Bjarne Stroustrup", "C. John Carmack", "D. Mark Zuckerburg"},
+                            {"A. C", "B. C+", "C. C--", "D. B++"},
+                            {"A. yes", "B. no", "C. maybe", "D. mama mo"}};
+
+        char answerKey[4] = {'C', 'B', 'A', 'D'};
+
+        char guess;
+        int score;
+        int size = sizeof(questions) / sizeof(questions[0]);
+        
+        for (int i = 0; i < size; i++){
+            cout << "\n************************************* \n";
+            cout << questions[i] << '\n';
+            cout << "************************************* \n";
+            
+            for (int j = 0; j < sizeof(choices[i]) / sizeof(choices[i][i]); j++)
+            {
+                cout << choices[i][j] << '\n';
+            }
+            
+            cout << "Enter your guess: ";
+            cin >> guess;
+            guess = toupper(guess);
+
+            if(guess == answerKey[i]){
+                cout << "Correct answer! \n\n";
+                score++;
+            }
+            else{
+                cout << "Wrong answer! \n\n";
+            }
+    }
+    
+    cout << "************************************* \n";
+    cout << "*            RESULTS                * \n";
+    cout << "************************************* \n";
+    cout << "# of questions: " << size << '\n';
+    cout << "# of correct guess: " << score << '\n';
+    cout << "Total Percentage: " << (score / (double) size) * 100 << "%";
+    return score;
+    }
 };
 
 int main(){
@@ -161,54 +214,51 @@ int main(){
     int score, choice;
 
     do{
-        while(true){
-        cout << "\n\n================================\n";
-        cout << "              MENU              \n";
-        cout << "================================\n";
-        cout << "[1] Add Player Record\n";
-        cout << "[2] Update Player Record\n";
-        cout << "[3] Display Leaderboard\n";
-        cout << "[4] Save Leaderboard to File\n";
-        cout << "[5] Exit\n\n";
-        cout << "Enter your choice: ";
+	        cout << "\n\n================================\n";
+	        cout << "              MENU              \n";
+	        cout << "================================\n";
+	        cout << "[1] Add Player Record\n";
+	        cout << "[2] Update Player Record\n";
+	        cout << "[3] Display Leaderboard\n";
+	        cout << "[4] Save Leaderboard to File\n";
+	        cout << "[5] Play Mini-Game\n";
+	        cout << "[6] Exit\n\n";
+	        cout << "Enter your choice: ";
+	        
 		while(!(cin>>choice)){
-       		cin >> choice;
-        	cin.clear();
-            	cin.ignore(123,'\n');
-            	cout << "Invalid input! numbers only"<<endl<<"Enter your choice: ";
-            	}
-        	if(choice<1||choice>5){
-        		cout<<"Invalid choice"<<endl;
-			}else{break;}
-		}
-
+	        cin.clear();
+	        cin.ignore(123,'\n');
+	        cout << "Invalid input! Numbers only!"<< endl<< "\n\nEnter your choice: ";
+	}
+        
         cin.ignore();
 
         switch (choice) {
+
         case 1:
             cout << "\nEnter player name: ";
             getline(cin, name);
             cout << "Enter player score: ";
+
             while(!(cin>>score)){ 
-                cin >> score;
                 cin.clear();
                 cin.ignore(123,'\n');
-                cout << "Invalid input! numbers only"<<endl<<"Enter player score: ";
+                cout << "Invalid input! Numbers only!" << endl << "\n\nEnter player score: ";
             }
-            cin.ignore();
+
             leaderboard.addPlayer(name, score);
             break;
         case 2: 
             cout << "\nEnter player name: ";
             getline(cin, name);
-	    cout << "Enter player score: ";
+	        cout << "Enter player score: ";
+
             while(!(cin>>score)){ 
-                cin >> score;
                 cin.clear();
                 cin.ignore(123,'\n');
-                cout << "Invalid input! numbers only"<<endl<<"Enter player score: ";
+                cout << "Invalid input! Numbers only!" << endl << "\n\nEnter player score: ";
             }
-            cin.ignore();
+
             leaderboard.updatePlayer(name, score);
             break;
         case 3:
@@ -218,12 +268,20 @@ int main(){
             leaderboard.saveToFile("leaderboard.txt");
             break;
         case 5:
+            cout << "\n\nEnter your name: ";
+            getline(cin, name);
+            score = leaderboard.playQuizGame();
+            leaderboard.addPlayer(name, score);
+            break;
+        case 6:
             cout << "\n\nThank you for using the program!";
+            cout << "\n\nDeveloped by: ";
+            cout << "\nClarence Junio " << "\nKaiser Opulencia \n"; 
             break;
         default:
             cout << "Invalid choice. Please try again.\n";
         }
-    } while (choice != 5);
+    } while (choice != 6);
 
     return 0;
 }
