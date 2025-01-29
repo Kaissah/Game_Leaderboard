@@ -179,15 +179,24 @@ int main(){
             cout << "\nEnter player name: ";
             getline(cin, name);
             cout << "Enter player score: ";
-            cin >> score;
+            while(!(cin>>score)){ 
+                cin >> score;
+                cin.clear();
+                cin.ignore(123,'\n');
+                cout << "Invalid input! numbers only"<<endl<<"Enter player score: ";
+            }
             cin.ignore();
             leaderboard.addPlayer(name, score);
             break;
         case 2: 
             cout << "\nEnter player name: ";
             getline(cin, name);
-            cout << "Enter player score: ";
-            cin >> score;
+            while(!(cin>>score)){ 
+                cin >> score;
+                cin.clear();
+                cin.ignore(123,'\n');
+                cout << "Invalid input! numbers only"<<endl<<"Enter player score: ";
+            }
             cin.ignore();
             leaderboard.updatePlayer(name, score);
             break;
