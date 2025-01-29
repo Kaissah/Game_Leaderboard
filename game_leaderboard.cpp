@@ -171,7 +171,12 @@ int main(){
         cout << "[4] Save Leaderboard to File\n";
         cout << "[5] Exit\n\n";
         cout << "Enter your choice: ";
-        cin >> choice;
+		while(!(cin>>choice)){
+       		cin >> choice;
+        	cin.clear();
+            	cin.ignore(123,'\n');
+            	cout << "Invalid input! numbers only"<<endl<<"Enter your choice: ";
+            	}
         	if(choice<1||choice>5){
         		cout<<"Invalid choice"<<endl;
 			}else{break;}
