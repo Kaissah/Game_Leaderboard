@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -56,7 +55,6 @@ private:
             }
         }
     }
-
 
 public:
     Leaderboard(){
@@ -146,12 +144,9 @@ public:
             cout << "Error: File does not exist.\n";     // Error handling for files
             return;
         }
-
        for (int i = 0; i < count; i++){
         file << board[i].name << " " << board[i].score << "\n";
         }
-
-
         file.close();
         cout << "\nLeaderboard saved to " << filename << "\n";
     }
@@ -163,6 +158,7 @@ int main(){
     int score, choice;
 
     do{
+		while(true){
         cout << "\n\n================================\n";
         cout << "              MENU              \n";
         cout << "================================\n";
@@ -172,38 +168,44 @@ int main(){
         cout << "[4] Save Leaderboard to File\n";
         cout << "[5] Exit\n\n";
         cout << "Enter your choice: ";
-        
-		while(!(cin>>choice)){
+        while(!(cin>>choice)){
+        	cin >> choice;
         	cin.clear();
             cin.ignore(123,'\n');
-            cout << "Invalid input! Numbers only!"<< endl<< "\n\nEnter your choice: ";
-        }
+            cout << "Invalid input! numbers only"<<endl<<"Enter your choice: ";
+            }
+        	if(choice<1||choice>5){
+        		cout<<"Invalid choice"<<endl;
+			}else{break;}
+		}
+		
+        cin.ignore();
 
         switch (choice) {
         case 1:
             cout << "\nEnter player name: ";
             getline(cin, name);
             cout << "Enter player score: ";
-
             while(!(cin>>score)){ 
+                cin >> score;
                 cin.clear();
                 cin.ignore(123,'\n');
-                cout << "Invalid input! Numbers only!" << endl << "\n\nEnter player score: ";
+                cout << "Invalid input! numbers only"<<endl<<"Enter player score: ";
             }
-
+            cin.ignore();
             leaderboard.addPlayer(name, score);
             break;
         case 2: 
             cout << "\nEnter player name: ";
             getline(cin, name);
-	    cout << "Enter player score: ";
-
+            cout << "Enter player score: ";
             while(!(cin>>score)){ 
+                cin >> score;
                 cin.clear();
                 cin.ignore(123,'\n');
-                cout << "Invalid input! Numbers only!" << endl << "\n\nEnter player score: ";
+                cout << "Invalid input! numbers only"<<endl<<"Enter player score: ";
             }
-
+            cin.ignore();
             leaderboard.updatePlayer(name, score);
             break;
         case 3:
@@ -219,6 +221,5 @@ int main(){
             cout << "Invalid choice. Please try again.\n";
         }
     } while (choice != 5);
-
     return 0;
 }
